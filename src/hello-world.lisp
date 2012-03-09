@@ -1,9 +1,6 @@
 (in-package :hunchentoot)
 
-(format t "Am I alive??")
-(format t "Dispatch ~A~%" *dispatch-table*)
-
-(hunchentoot:define-easy-handler (say-yo :uri "/yo") (name)
+(hunchentoot:define-easy-handler (hello-sbcl :uri "/hello-sbcl") (name)
   (setf (hunchentoot:content-type*) "text/plain")
   (format nil "Hey~@[ ~A~]! ~A ~A" name (lisp-implementation-type) (lisp-implementation-version)))
 
