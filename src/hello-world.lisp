@@ -1,20 +1,26 @@
-(in-package :net.aserve)
+(in-package :hunchentoot)
 
-(publish :path "/"
-	 :function #'(lambda (req ent)
-		       (with-http-response (req ent)
-			 (with-http-body (req ent)
-			   (html
-			    (:h1 "Hello World")
-			    (:princ "Congratulations, you are running Lisp on Heroku!!!")
-			    :p
-			    ((:img :src "lisp-glossy.jpg"))
-			    )))))
+(format t "Am I alive?")
 
-(publish-directory
- :prefix "/"
- :destination "./public/"
- )
+(hunchentoot:define-easy-handler (say-yo :uri "/yo") (name)
+  (setf (hunchentoot:content-type*) "text/plain")
+  (format t "Hey~@[ ~A~]!" name))
+
+;(publish :path "/"
+;	 :function #'(lambda (req ent)
+;		       (with-http-response (req ent)
+;			 (with-http-body (req ent)
+;			   (html
+;			    (:h1 "Hello World")
+;			    (:princ "Congratulations, you are running Lisp on Heroku!!!")
+;			    :p
+;			    ((:img :src "lisp-glossy.jpg"))
+;			    )))))
+;
+;(publish-directory
+; :prefix "/"
+; :destination "./public/"
+; )
 
 		   
 

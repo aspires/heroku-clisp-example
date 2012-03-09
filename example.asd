@@ -3,7 +3,7 @@
 (defsystem :example
     :name "example"
     :description "Example cl-heroku application"
-    :depends-on (:aserve)
+    :depends-on (:hunchentoot)
     :components
     ((:static-file "example.asd")
      (:module :src
