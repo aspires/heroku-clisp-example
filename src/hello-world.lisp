@@ -5,9 +5,7 @@
 
 (hunchentoot:define-easy-handler (say-yo :uri "/yo") (name)
   (setf (hunchentoot:content-type*) "text/plain")
-  (progn
-  	(format nil "Hey~@[ ~A~]!~%" name)
-  	(format nil "~A ~A" (lisp-implementation-type) (lisp-implementation-version))))
+  (format nil "Hey~@[ ~A~]! ~A ~A" name (lisp-implementation-type) (lisp-implementation-version)))
 
 ;(publish :path "/"
 ;	 :function #'(lambda (req ent)
