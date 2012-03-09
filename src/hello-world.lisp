@@ -1,10 +1,11 @@
 (in-package :hunchentoot)
 
-(format t "Am I alive?")
+(format t "Am I alive??")
+(format t "Dispatch ~A~%" *dispatch-table*)
 
 (hunchentoot:define-easy-handler (say-yo :uri "/yo") (name)
   (setf (hunchentoot:content-type*) "text/plain")
-  (format t "Hey~@[ ~A~]!" name))
+  (format nil "Hey~@[ ~A~]!" name))
 
 ;(publish :path "/"
 ;	 :function #'(lambda (req ent)
