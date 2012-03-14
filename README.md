@@ -13,7 +13,7 @@ Next, create your own Heroku application using CL Buildpack:
 
 Install http://devcenter.heroku.com/articles/labs-user-env-compile to have config vars available at build time.
 
-So you can choose implementation via: ```heroku config:add CL_IMPL={sbcl|cc}```
+So you can choose implementation via: ```heroku config:add CL_IMPL={sbcl|ccl}```
 
 To avoid trouble with SBCL source encoding use: ```heroku config:add LANG=en_US.UTF-8```
 
