@@ -1,5 +1,14 @@
 (in-package :example)
 
+;; Database
+(unless (postmodern:connected-p postmodern:*database*)
+  (postmodern:connect-toplevel "production_test" "postgres" "postgres" "localhost"))
+
+;; Handlers
+(hunchentoot:define-easy-handler (hello-db :uri "/hello-db") (name)
+  (setf (hunchentoot:content-type*) "text/plain")
+  (format nil "From db: ~A" (postmodern:query (:select '* :from 'accounts))))
+
 (push (hunchentoot:create-folder-dispatcher-and-handler "/static/" "/app/public/")
 	 hunchentoot:*dispatch-table*)
 
