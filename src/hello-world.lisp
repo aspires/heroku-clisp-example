@@ -1,13 +1,23 @@
 (in-package :example)
 
+(defvar *databse-url* (sb-posix:getenv "DATABASE_URL"))
+
+(defun db-params ()
+  (let* ((url (second (cl-ppcre:split "//" *database-url*)))
+	 (user (first (cl-ppcre:split ":" (first (cl-ppcre:split "@" url)))))
+	 (password (second (cl-ppcre:split ":" (first (cl-ppcre:split "@" url)))))
+	 (host (first (cl-ppcre:split "/" (second (cl-ppcre:split "@" url)))))
+	 (database (second (cl-ppcre:split "/" (second (cl-ppcre:split "@" url))))))
+    (list database user password host)))
+
 ;; Database
 (unless (postmodern:connected-p postmodern:*database*)
-  (postmodern:connect-toplevel "production_test" "postgres" "postgres" "localhost"))
+  (apply #'postmodern:connect-toplevel (db-params)))
 
 ;; Handlers
 (hunchentoot:define-easy-handler (hello-db :uri "/hello-db") (name)
   (setf (hunchentoot:content-type*) "text/plain")
-  (format nil "From db: ~A" (postmodern:query (:select '* :from 'accounts))))
+  (format nil "Heroku Database: ~A" (postmodern:query "select version()")))
 
 (push (hunchentoot:create-folder-dispatcher-and-handler "/static/" "/app/public/")
 	 hunchentoot:*dispatch-table*)
