@@ -9,6 +9,8 @@
 (defvar *database-url* (heroku-getenv "DATABASE_URL"))
 
 (defun db-params ()
+  "Heroku database url format is postgres://username:password@host/database_name.
+TODO: cleanup code."
   (let* ((url (second (cl-ppcre:split "//" *database-url*)))
 	 (user (first (cl-ppcre:split ":" (first (cl-ppcre:split "@" url)))))
 	 (password (second (cl-ppcre:split ":" (first (cl-ppcre:split "@" url)))))
