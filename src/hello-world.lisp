@@ -1,6 +1,6 @@
 (in-package :example)
 
-(defvar *database-url* (sb-posix:getenv "DATABASE_URL"))
+(defvar *database-url* "postgres://sjxorekfoz:AGMva3s8HwDwtaCqXE7m@ec2-107-20-191-127.compute-1.amazonaws.com/sjxorekfoz")
 
 (defun db-params ()
   (let* ((url (second (cl-ppcre:split "//" *database-url*)))
