@@ -1,5 +1,6 @@
 (in-package :example)
 
+;; Database
 (defvar *database-url* "postgres://sjxorekfoz:AGMva3s8HwDwtaCqXE7m@ec2-107-20-191-127.compute-1.amazonaws.com/sjxorekfoz")
 
 (defun db-params ()
@@ -10,14 +11,18 @@
 	 (database (second (cl-ppcre:split "/" (second (cl-ppcre:split "@" url))))))
     (list database user password host)))
 
-;; Database
-(unless (postmodern:connected-p postmodern:*database*)
-  (apply #'postmodern:connect-toplevel (db-params)))
-
 ;; Handlers
 (hunchentoot:define-easy-handler (hello-db :uri "/hello-db") (name)
-  (setf (hunchentoot:content-type*) "text/plain")
-  (format nil "Heroku Database: ~A" (postmodern:query "select version()")))
+  (cl-who:with-html-output-to-string (s)
+    (:html
+     (:head
+      (:title "Heroku Database"))
+     (:body
+      (:h1 "Heroku Database")
+      (:div
+       (:pre "SELECT version();"))
+      (:div (format s "~A" (postmodern:with-connection (db-params)
+			     (postmodern:query "select version()"))))))))
 
 (push (hunchentoot:create-folder-dispatcher-and-handler "/static/" "/app/public/")
 	 hunchentoot:*dispatch-table*)
