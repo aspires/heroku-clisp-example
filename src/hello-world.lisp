@@ -1,7 +1,12 @@
 (in-package :example)
 
+;; Utils
+(defun heroku-getenv (target)
+  #+ccl (getenv target)
+  #+sbcl (sb-posix:getenv target))
+
 ;; Database
-(defvar *database-url* (sb-posix:getenv "DATABASE_URL"))
+(defvar *database-url* (heroku-getenv "DATABASE_URL"))
 
 (defun db-params ()
   (let* ((url (second (cl-ppcre:split "//" *database-url*)))
