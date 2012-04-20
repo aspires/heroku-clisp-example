@@ -1,0 +1,3 @@
+#removes dotfiles from the Redcar Editor.
+.redcar
+/.redcar
